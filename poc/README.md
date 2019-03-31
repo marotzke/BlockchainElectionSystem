@@ -49,6 +49,9 @@ voteCount.toNumber()
 ## Referências
 
 [Doc Truffle](https://truffleframework.com/docs/truffle/overview)
+
 [Election Dapp Guide](http://www.dappuniversity.com/articles/the-ultimate-ethereum-dapp-tutorial)
+
 [Pet Shop Truffle Guide](https://truffleframework.com/tutorials/pet-shop)
+
 [Diferença entre Transações e Chamadas](https://truffleframework.com/docs/truffle/getting-started/interacting-with-your-contracts)
