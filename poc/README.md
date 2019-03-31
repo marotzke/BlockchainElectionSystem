@@ -27,11 +27,17 @@ Para testar os votos, use o Console do Truffle:
 
 No console, crie uma instância do app com o contrato de Eleição
 
-`Election.deployed().then(function(instance) { app = instance })`
+`let instance = await Election.deployed()`
 
 E para votar em um candidato, vote no id do mesmo pelo console
 
-`app.vote(1)`
+`instance.vote(1)`
 
 Isso irá criar uma transação no blockchain e armazenar o voto para o candidado de ID 1.
 
+Para visualizar o número de votos do cadidato:
+
+```
+let voteCount = await instance.getCandidateVoteCount(1)
+voteCount.toNumber()
+```

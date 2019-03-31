@@ -22,6 +22,10 @@ contract Election {
         addCandidate("Candidate 2");
     }
 
+    function getCandidateVoteCount(uint _candidateId) view public returns (uint value) {
+        return candidates[_candidateId].voteCount;
+    }
+
     function addCandidate (string memory _name) private {
         candidatesCount ++;
         candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
