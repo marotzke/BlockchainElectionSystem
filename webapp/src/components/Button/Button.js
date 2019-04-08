@@ -12,7 +12,7 @@ const Button = props => {
         secondary={props.secondary}
         onClick={props.onClick}
     >
-    {props.content}
+      {props.content}
     </ButtonSemantic>
   )
 }
@@ -20,7 +20,8 @@ const Button = props => {
 Button.propTypes = {
     primary: PropTypes.bool,
     secondary: PropTypes.bool,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    content: PropTypes.element
 }
 
 export default Button
