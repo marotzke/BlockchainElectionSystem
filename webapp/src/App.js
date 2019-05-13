@@ -1,9 +1,9 @@
 import React from 'react'
-import Home from './pages/Home/HomeContainer'
+import Voting from './pages/Voting/VotingContainer'
 
 const App = () => {
   return (
-    <Home/>
+    <Voting/>
   )
 }
 

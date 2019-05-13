@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Button as ButtonSemantic } from 'semantic-ui-react'
-
-// CSS
-import "./Button.module.scss"
+import styles from "./Button.module.scss"
 
 const Button = props => {
   return (
