@@ -23,15 +23,15 @@ const account = "b055264b1cb8e62d3b1a3c133de014c21093416d"
 app.post("/vote", async (req, res, next) => {
     const candidateId = body.id
     vote(Election, candidateId)
-        .then((result) => { return res.json(result) })
-        .catch((error) => { return res.json(error) })
+        .then((result) => { return res.status(204) })
+        .catch((error) => { return res.status(400).json(error) })
 });
 
 app.post("/finish", async (req, res, next) => {
     const address = body.address
     endElection(Election, address)
-        .then((result) => { return res.json(result) })
-        .catch((error) => { return res.json(error) })
+        .then((result) => { return res.status(204) })
+        .catch((error) => { return res.status(400).json(error) })
 });
 
 app.get("/results", async (req, res, next) => {
@@ -51,9 +51,9 @@ app.get("/results", async (req, res, next) => {
              info.voteCount = voteCount.toNumber()
              return info
         }))
-        return res.json(candidatesInfo)
+        return res.status(200).json(candidatesInfo)
     } else {
-        return res.json("Em andamento")
+        return res.status(204)
     }
  
 })
@@ -68,7 +68,7 @@ app.get("/info", async (req, res, next) => {
             name: info.name
         }
     })
-    return res.json(candidatesInfo)
+    return res.status(200).json(candidatesInfo)
 });
 
 
