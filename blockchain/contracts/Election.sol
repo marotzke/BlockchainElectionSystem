@@ -25,7 +25,13 @@ contract Election {
 
     // Modifier to permission
     modifier onlyMaster {
-        require(msg.sender == master);
+        require(msg.sender == master, "Sender is master");
+        _;
+    }
+
+    // Modifier has finished
+    modifier hasFinishedModifier {
+        require(hasFinished == true, "Election has finished");
         _;
     }
 
@@ -36,12 +42,8 @@ contract Election {
         master = masterAddress;
     }
 
-    function getCandidateVoteCount(uint _candidateId) view public returns (int value) {
-        if (hasFinished == true) {
-            return candidates[_candidateId].voteCount;
-        } else {
-            return -1;
-        }
+    function getCandidateVoteCount(uint _candidateId) public view  hasFinishedModifier returns (int value) {
+        return candidates[_candidateId].voteCount;
     }
 
     function getCandidateInfo (uint _candidateId) public view  returns (uint id, string memory name) {
