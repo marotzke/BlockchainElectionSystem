@@ -34,12 +34,12 @@ export const getElectionHasFinished = async (Election) => {
 
 export const endElection = async (Election, address) => {
     return Election.deployed()
-        .then((deployed) => { return deployed.endElection(address)})
+        .then((deployed) => { return deployed.endElection({from: address})})
         .catch((error) => { return error})
 }
 
-export const addCandidate = async (Election, name, party) => {
+export const addCandidate = async (Election, name, party, address) => {
     return Election.deployed()
-        .then((deployed) => { return deployed.addCandidate(name, party)})
+        .then((deployed) => { return deployed.addCandidate(name, party, {from: address})})
         .catch((error) => { return error})
 }

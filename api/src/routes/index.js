@@ -18,12 +18,11 @@ const provider = new Web3.providers.HttpProvider(URL)
 const ElectionJson = require("../../../blockchain/build/contracts/Election.json")
 const Election = contract(ElectionJson)
 Election.setProvider(provider);
-const account = "b055264b1cb8e62d3b1a3c133de014c21093416d"
-
 
 app.post("/vote", async (req, res, next) => {
     const candidateId = body.id
-    vote(Election, candidateId)
+    const address = body.address
+    vote(Election, candidateId, address)
         .then((result) => { return res.status(204) })
         .catch((error) => { return res.status(400).json(error) })
 });
@@ -38,7 +37,8 @@ app.post("/finish", async (req, res, next) => {
 app.post("/add_candidate", async (req, res, next) => {
     const name = body.name
     const party = body.party
-    addCandidate(Election, name, party)
+    const address = body.address
+    addCandidate(Election, name, party, address)
         .then((result) => { return res.status(204) })
         .catch((error) => { return res.status(400).json(error) })
 });
