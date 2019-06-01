@@ -4,6 +4,7 @@ contract Election {
     // Model a Candidate
     struct Candidate {
         uint id;
+        string party;
         string name;
         int voteCount;
     }
@@ -36,8 +37,8 @@ contract Election {
     }
 
     constructor(address masterAddress) public {
-        addCandidate("Candidate 1");
-        addCandidate("Candidate 2");
+        addCandidate("Candidate 1", "PT");
+        addCandidate("Candidate 2", "PSDB");
         hasFinished = false;
         master = masterAddress;
     }
@@ -46,16 +47,18 @@ contract Election {
         return candidates[_candidateId].voteCount;
     }
 
-    function getCandidateInfo (uint _candidateId) public view  returns (uint id, string memory name) {
-        return (candidates[_candidateId].id, candidates[_candidateId].name);
+    function getCandidateInfo (uint _candidateId) public view  returns (uint id, string memory name, string memory party) {
+        return (candidates[_candidateId].id,
+                candidates[_candidateId].name,
+                candidates[_candidateId].party);
     }
 
     function getCandidatesCount () public view returns (uint count) {
         return candidatesCount;
     }
 
-    function addCandidate (string memory _name) private {
-        candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
+    function addCandidate (string memory _name, string memory _party) public onlyMaster {
+        candidates[candidatesCount] = Candidate(candidatesCount, _party, _name, 0);
         candidatesCount ++;
     }
 

@@ -37,3 +37,9 @@ export const endElection = async (Election, address) => {
         .then((deployed) => { return deployed.endElection(address)})
         .catch((error) => { return error})
 }
+
+export const addCandidate = async (Election, name) => {
+    return Election.deployed()
+        .then((deployed) => { return deployed.addCandidate(name)})
+        .catch((error) => { return error})
+}

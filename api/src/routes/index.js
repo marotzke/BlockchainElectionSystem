@@ -7,7 +7,8 @@ import { vote,
          getCandidateInfo,
          getCandidateVoteCount,
          getElectionHasFinished,
-         endElection
+         endElection,
+         addCandidate
        } from '../controllers/controllers'
 
 const app = express();
@@ -34,6 +35,13 @@ app.post("/finish", async (req, res, next) => {
         .catch((error) => { return res.status(400).json(error) })
 });
 
+app.post("/add_candidate", async (req, res, next) => {
+    const name = body.name
+    addCandidate(Election, name)
+        .then((result) => { return res.status(204) })
+        .catch((error) => { return res.status(400).json(error) })
+});
+
 app.get("/results", async (req, res, next) => {
     const hasEnded = await getElectionHasFinished(Election)
     if (hasEnded){
@@ -43,7 +51,8 @@ app.get("/results", async (req, res, next) => {
         candidatesInfo = candidatesInfo.map(info => {
             return {
                 id: info.id,
-                name: info.name
+                name: info.name,
+                party: info.party
             }
         })
         candidatesInfo = await Promise.all(candidatesInfo.map(async (info, i) => {
@@ -65,12 +74,12 @@ app.get("/info", async (req, res, next) => {
     candidatesInfo = candidatesInfo.map(info => {
         return {
             id: info.id,
-            name: info.name
+            name: info.name,
+            party: info.party
         }
     })
     return res.status(200).json(candidatesInfo)
 });
-
 
 
 app.listen(3000, () => {
