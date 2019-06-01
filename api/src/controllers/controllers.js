@@ -38,8 +38,8 @@ export const endElection = async (Election, address) => {
         .catch((error) => { return error})
 }
 
-export const addCandidate = async (Election, name) => {
+export const addCandidate = async (Election, name, party) => {
     return Election.deployed()
-        .then((deployed) => { return deployed.addCandidate(name)})
+        .then((deployed) => { return deployed.addCandidate(name, party)})
         .catch((error) => { return error})
 }

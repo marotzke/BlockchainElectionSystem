@@ -37,7 +37,8 @@ app.post("/finish", async (req, res, next) => {
 
 app.post("/add_candidate", async (req, res, next) => {
     const name = body.name
-    addCandidate(Election, name)
+    const party = body.party
+    addCandidate(Election, name, party)
         .then((result) => { return res.status(204) })
         .catch((error) => { return res.status(400).json(error) })
 });
