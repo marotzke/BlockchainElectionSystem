@@ -37,10 +37,10 @@ contract Election {
     }
 
     constructor(address masterAddress) public {
+        master = masterAddress;
         addCandidate("Candidate 1", "PT");
         addCandidate("Candidate 2", "PSDB");
         hasFinished = false;
-        master = masterAddress;
     }
 
     function getCandidateVoteCount(uint _candidateId) public view  hasFinishedModifier returns (int value) {
