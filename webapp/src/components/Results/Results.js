@@ -19,7 +19,7 @@ export default class Results extends Component {
     }
 
     componentWillMount() {
-        fetch('http://localhost:8545/results/')
+        fetch('http://localhost:8545/results')
           .then(response => response.json())
           .then(data => 
             console.log(data)

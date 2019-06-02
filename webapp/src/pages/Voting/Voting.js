@@ -1,18 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './Voting.module.scss'; 
+import VoteForm from '../../components/VoteForm/VoteForm'
 
 const Voting = props => {
   return (
     <div className={styles.content}>
-      <div className={styles.candidate_info}>
-        <p className={styles.office}>
-          Deputado Federal
-        </p>
-        <div className={styles.candidate_number}>
-        </div>
-      </div>
-    </div>
+    <h1 className={styles.title}> Eleições 2019</h1>
+    <VoteForm/>
+  </div>
   )
 }
 

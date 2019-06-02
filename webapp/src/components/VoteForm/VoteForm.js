@@ -1,5 +1,6 @@
-import React, { Component, useState } from 'react'
-import { Button, Form, Step, Icon } from 'semantic-ui-react'
+import React, { Component } from 'react'
+import { Button, Form } from 'semantic-ui-react'
+import { BrowserRouter as withRouter } from "react-router-dom";
 
 export default class VoteForm extends Component {
     constructor(props){
@@ -15,7 +16,7 @@ export default class VoteForm extends Component {
       }else if(this.state.candidateId == -1 ){
         alert("Código do Candidato não específicado")
       }else{
-        fetch('https://30c8b59d-a72c-4066-a6a1-f80330782f8f.mock.pstmn.io/vote/', {
+        fetch('http://localhost:8545/vote/', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -25,8 +26,16 @@ export default class VoteForm extends Component {
             candidateId: this.state.candidateId,
             voterId: this.state.voterId,
           })
-        }).then(alert("hello"))
-      }
+        }).then((response) => {
+          if(response.status != 200){
+            alert("Algo de errado ocorreu")
+          }else{
+            withRouter(({ history }) => {
+              history.push('/results')
+          })
+          }
+        })
+      } 
     }
 
     handlecandidateId (e) { this.setState({candidateId:e.target.value}); }
@@ -34,32 +43,6 @@ export default class VoteForm extends Component {
 
     render() {
         return (
-        //   <div>
-        //   <Step.Group>
-        //   <Step active link>
-        //     {/* <Icon name='truck' /> */}
-        //     <Step.Content>
-        //       <Step.Title>Eleitor</Step.Title>
-        //       <Step.Description>Ensira seu ID de eleitor</Step.Description>
-        //     </Step.Content>
-        //   </Step>
-      
-        //   <Step disabled>
-        //     {/* <Icon name='payment' /> */}
-        //     <Step.Content>
-        //       <Step.Title>Candidato</Step.Title>
-        //       <Step.Description>Insira o código do candidato que deseja votar </Step.Description>
-        //     </Step.Content>
-        //   </Step>
-      
-        //   <Step disabled>
-        //     {/* <Icon name='info' /> */}
-        //     <Step.Content>
-        //       <Step.Title>Voto</Step.Title>
-        //       <Step.Description>Confirme seu voto</Step.Description>
-        //     </Step.Content>
-        //   </Step>
-        // </Step.Group>
 
             <Form>
             <Form.Field>
