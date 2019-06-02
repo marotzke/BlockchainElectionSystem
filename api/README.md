@@ -17,3 +17,11 @@ Then migrate your contracts on `/blockchain` running:
 Then start the server:
 
 `$ npm start`
+
+## API Doc
+
+The API Documentation's path is `public/index.html`
+
+To build the documentation you need to install `apidoc` and run the following script:
+
+`apidoc -f src/routes/index.js -o public/apidoc`
