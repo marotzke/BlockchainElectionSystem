@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, Card, Placeholder, Image  } from 'semantic-ui-react'
-import { BrowserRouter as withRouter } from "react-router-dom";
+import { Button, Form, Card, Placeholder, Image, Header, Flag } from 'semantic-ui-react'
 
 const data1 = [
   {
@@ -25,6 +24,7 @@ export default class VoteForm extends Component {
     constructor(props){
       super(props)
       this.state = {
+        voted: false,
         candidates: null,
         candidateId: -1,
         voterId: -1
@@ -32,7 +32,7 @@ export default class VoteForm extends Component {
     }
 
     componentWillMount() {
-      // this.setState({candidates: data1}) // UNCOMMENT TO TEST WITHOUT SERVER-SIDE
+      this.setState({candidates: data1}) // UNCOMMENT TO TEST WITHOUT SERVER-SIDE
       fetch('http://localhost:8545/info')
       .then(response => response.json())
       .then(data => 
@@ -46,6 +46,7 @@ export default class VoteForm extends Component {
       }else if(this.state.candidateId == -1 ){
         alert("Código do Candidato não específicado")
       }else{
+        this.setState({voted:true})
         fetch('http://localhost:8545/vote/', {
           method: 'POST',
           headers: {
@@ -58,11 +59,9 @@ export default class VoteForm extends Component {
           })
         }).then((response) => {
           if(response.status != 200){
-            alert("Algo de errado ocorreu")
+            alert("Algo de errado ocorreu.")
           }else{
-            withRouter(({ history }) => {
-              history.push('/results')
-          })
+            this.setState({voted:true})
           }
         })
       } 
@@ -72,35 +71,54 @@ export default class VoteForm extends Component {
     handlevoterId (e) { this.setState({voterId:e.target.value}); }
 
     render() {
-      let candidateHeader =  <Card>
-      <Placeholder>
-        <Placeholder.Image square />
-      </Placeholder>
-      <Card.Content>
-        <Card.Header>
-        <Placeholder><Placeholder.Line /></Placeholder>
-        </Card.Header>
-        <Card.Meta>
-        <Placeholder><Placeholder.Line /></Placeholder>
-        </Card.Meta>
-      </Card.Content>
-    </Card>
-      let button = <Button disabled type='submit' onClick={this.vote}>Votar</Button>
-      if (this.state.candidates != null) {
-        const candidate = this.state.candidates.find( c => c.id === parseInt(this.state.candidateId,10) );
-        console.log(candidate)
-        if(candidate != null){
-          candidateHeader = <Card>
-          <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' wrapped ui={false} />
-          <Card.Content>
-            <Card.Header>{candidate.name}</Card.Header>
-            <Card.Meta>
-              <span className='date'>{candidate.party}</span>
-            </Card.Meta>
-          </Card.Content>
-        </Card>
-          if(this.state.voterId !== -1){
-            button = <Button type='submit' onClick={this.vote}>Votar</Button>
+      let main
+      let button
+      let candidateHeader
+      if(this.state.voted){
+        main = <Header >Parabéns! Você contribuiu com um voto mais seguro, auditável e que fará a diferença em seu país! <Flag name='brazil' /> </Header>
+        button = null
+      }else{
+        main = <div>
+        <Form.Field>
+          <label>Código do Candidato</label>
+          <input onChange={this.handlecandidateId.bind(this)}/>
+        </Form.Field>
+        <Form.Field>
+          <label>ID do Eleitor</label>
+          <input onChange={this.handlevoterId.bind(this)}/>
+        </Form.Field>
+        </div>
+        
+        candidateHeader =  <Card>
+        <Placeholder>
+          <Placeholder.Image square />
+        </Placeholder>
+        <Card.Content>
+          <Card.Header>
+          <Placeholder><Placeholder.Line /></Placeholder>
+          </Card.Header>
+          <Card.Meta>
+          <Placeholder><Placeholder.Line /></Placeholder>
+          </Card.Meta>
+        </Card.Content>
+      </Card>
+        button = <Button disabled type='submit' onClick={this.vote}>Votar</Button>
+        if (this.state.candidates != null) {
+          const candidate = this.state.candidates.find( c => c.id === parseInt(this.state.candidateId,10) );
+          console.log(candidate)
+          if(candidate != null){
+            candidateHeader = <Card>
+            <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' wrapped ui={false} />
+            <Card.Content>
+              <Card.Header>{candidate.name}</Card.Header>
+              <Card.Meta>
+                <span className='date'>{candidate.party}</span>
+              </Card.Meta>
+            </Card.Content>
+          </Card>
+            if(this.state.voterId !== -1){
+              button = <Button type='submit' onClick={this.vote}>Votar</Button>
+            }
           }
         }
       }
@@ -108,14 +126,7 @@ export default class VoteForm extends Component {
           <div> 
             {candidateHeader}
             <Form>
-            <Form.Field>
-              <label>Código do Candidato</label>
-              <input onChange={this.handlecandidateId.bind(this)}/>
-            </Form.Field>
-            <Form.Field>
-              <label>ID do Eleitor</label>
-              <input onChange={this.handlevoterId.bind(this)}/>
-            </Form.Field>
+            {main}
             {button}
             
           </Form>
