@@ -32,8 +32,8 @@ export default class VoteForm extends Component {
     }
 
     componentWillMount() {
-      this.setState({candidates: data1}) // UNCOMMENT TO TEST WITHOUT SERVER-SIDE
-      fetch('http://localhost:8545/info')
+      // this.setState({candidates: data1}) // UNCOMMENT TO TEST WITHOUT SERVER-SIDE
+      fetch('http://localhost:3000/info')
       .then(response => response.json())
       .then(data => 
           this.setState({candidates: data})
@@ -46,8 +46,7 @@ export default class VoteForm extends Component {
       }else if(this.state.candidateId == -1 ){
         alert("Código do Candidato não específicado")
       }else{
-        this.setState({voted:true})
-        fetch('http://localhost:8545/vote/', {
+        fetch('http://localhost:3000/vote/', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -58,8 +57,8 @@ export default class VoteForm extends Component {
             address: this.state.voterId,
           })
         }).then((response) => {
-          if(response.status != 200){
-            alert("Algo de errado ocorreu.")
+          if(response.status != 204){
+            alert("Algo de errado ocorreu")
           }else{
             this.setState({voted:true})
           }
@@ -103,9 +102,9 @@ export default class VoteForm extends Component {
         </Card.Content>
       </Card>
         button = <Button disabled type='submit' onClick={this.vote}>Votar</Button>
+        console.log(this.state)
         if (this.state.candidates != null) {
-          const candidate = this.state.candidates.find( c => c.id === parseInt(this.state.candidateId,10) );
-          console.log(candidate)
+          const candidate = this.state.candidates.find( c => parseInt(c.id) === parseInt(this.state.candidateId,10) );
           if(candidate != null){
             candidateHeader = <Card>
             <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' wrapped ui={false} />

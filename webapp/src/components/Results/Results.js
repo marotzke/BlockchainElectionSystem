@@ -34,11 +34,12 @@ export default class Results extends Component {
 
     componentWillMount() {
         // this.setState({candidates: data1}) // UNCOMMENT TO TEST WITHOUT SERVER-SIDE 
-        fetch('http://localhost:8545/results')
+        fetch('http://localhost:3000/results')
         .then(response => response.json())
         .then(data => 
             this.setState({candidates: data})
-            );
+            )
+        .catch((err) => console.log(err));
       }
 
     render() {

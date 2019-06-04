@@ -12,7 +12,7 @@ import { vote,
        } from '../controllers/controllers'
 
 const app = express();
-app.use(express.urlencoded())
+app.use(express.json())
 const URL = "http://localhost:8545"
 const provider = new Web3.providers.HttpProvider(URL)
 
